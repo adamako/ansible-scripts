@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  AnsibleInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-005de95e8ff495156
+      InstanceType: t2.micro
+      SubnetId: subnet-064c2a79ad69e38b6
+      SecurityGroupIds:
+        - sg-0484d878bacf5178b
+      KeyName: 'ansible_ec2'
+      Tags:
+        - Key: Project
+          Value: udacity
+
+
+
+
