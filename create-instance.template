@@ -1,14 +1,24 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
 Resources:
+  InstanceSecurityG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security groupe for ours instance
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          ToPort: 20
+          FromPort: 20
+          CidrIp: 0.0.0.0/0
+
   AnsibleInstance:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-005de95e8ff495156
       InstanceType: t2.micro
       SubnetId: subnet-064c2a79ad69e38b6
-      SecurityGroupIds:
-        - sg-0484d878bacf5178b
+      SecurityGroups:
+        - !Ref InstanceSecurityG
       KeyName: 'ansible_ec2'
       Tags:
         - Key: Project
