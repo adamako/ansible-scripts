@@ -16,7 +16,6 @@ Resources:
     Properties:
       ImageId: ami-005de95e8ff495156
       InstanceType: t2.micro
-      SubnetId: subnet-064c2a79ad69e38b6
       SecurityGroups:
         - !Ref InstanceSecurityG
       KeyName: 'ansible_ec2'
