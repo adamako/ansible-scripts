@@ -13,7 +13,10 @@
 - name: Write the new ec2 instance host key to known hosts
   become: false
   connection: local
-  shell: "ssh-kescan -H {{inventory_hostname}} >> ~/.ssh/known_hosts"
+  shell: |
+    "cat {{inventory_hostname}}
+     ssh-kescan -H {{inventory_hostname}} >> ~/.ssh/known_hosts"
+
 
 - name: Add node source ppa
   become: true
