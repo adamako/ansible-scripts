@@ -7,8 +7,8 @@ Resources:
       GroupDescription: Security groupe for ours instance
       SecurityGroupIngress:
         - IpProtocol: tcp
-          ToPort: 20
-          FromPort: 20
+          ToPort: 22
+          FromPort: 22
           CidrIp: 0.0.0.0/0
 
   AnsibleInstance:
