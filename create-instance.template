@@ -10,6 +10,10 @@ Resources:
           ToPort: 22
           FromPort: 22
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          ToPort: 3000
+          FormPort: 3000
+          CidrIp: 0.0.0.0/0
 
   AnsibleInstance:
     Type: AWS::EC2::Instance
