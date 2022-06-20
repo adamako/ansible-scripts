@@ -19,13 +19,13 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["ee:94:18:ee:cf:1d:28:fe:01:38:7e:f4:85:a4:0d:ec"]
       - run:
-        name: Install Ansible
-        command: |
-          apk add --update ansible
+          name: Install Ansible
+          command: |
+            apk add --update ansible
       - run:
-        name: Run playbook and configure server
-        command: |
-          ansible-playbook -i exo3/inventory.txt exo3/main.yml
+          name: Run playbook and configure server
+          command: |
+            ansible-playbook -i exo3/inventory.txt exo3/main.yml
 
 # Invoke jobs via workflows
 workflows:
