@@ -2,15 +2,15 @@ version: 2.1
 
 # Define a job to be invoked later in a workflow.
 jobs:
-  create_infrastructure:
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: Create cloudformation stack
-          command: |
-            aws cloudformation create-stack --stack-name ansible-ec2 --template-body file://create-instance.template --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"
+#  create_infrastructure:
+#    docker:
+#      - image: amazon/aws-cli
+#    steps:
+#      - checkout
+#      - run:
+#          name: Create cloudformation stack
+#          command: |
+#            aws cloudformation create-stack --stack-name ansible-ec2 --template-body file://create-instance.template --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"
   configure_infrastructure:
     docker:
       - image: python:3.7-alpine3.11
@@ -31,5 +31,5 @@ jobs:
 workflows:
   create_infrastructure-workflow:
     jobs:
-      - configure_insfrastructure
+      - configure_infrastructure
 #      - create_infrastructure
