@@ -2,6 +2,27 @@ version: 2.1
 
 # Define a job to be invoked later in a workflow.
 jobs:
+   smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl
+      - run:
+          name: smoke test
+          command: |
+            URL="https://blog.udacity.com"
+            # Test if website works
+            if curl -s --head ${URL}
+            then
+              return 0
+            else
+              return 1
+            fi
+      - run:
+          when: on_fail
+          name: Smoke test fail
+          command: "Error, not working"
+
 #  create_infrastructure:
 #    docker:
 #      - image: amazon/aws-cli
@@ -11,25 +32,27 @@ jobs:
 #          name: Create cloudformation stack
 #          command: |
 #            aws cloudformation create-stack --stack-name ansible-ec2 --template-body file://create-instance.template --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"
-  configure_infrastructure:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["ee:94:18:ee:cf:1d:28:fe:01:38:7e:f4:85:a4:0d:ec"]
-      - run:
-          name: Install Ansible
-          command: |
-            apk add --update ansible
-      - run:
-          name: Run playbook and configure server
-          command: |
-            ansible-playbook -i exo3/inventory.txt exo3/main.yml
+#  configure_infrastructure:
+#    docker:
+#      - image: python:3.7-alpine3.11
+#    steps:
+#      - checkout
+#      - add_ssh_keys:
+#          fingerprints: ["ee:94:18:ee:cf:1d:28:fe:01:38:7e:f4:85:a4:0d:ec"]
+#      - run:
+#          name: Install Ansible
+#          command: |
+#            apk add --update ansible
+#      - run:
+#          name: Run playbook and configure server
+#          command: |
+#            ansible-playbook -i exo3/inventory.txt exo3/main.yml
+
 
 # Invoke jobs via workflows
 workflows:
   create_infrastructure-workflow:
     jobs:
-      - configure_infrastructure
+      - smoke_test
+#       - configure_infrastructure
 #      - create_infrastructure
