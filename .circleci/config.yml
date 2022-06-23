@@ -12,15 +12,6 @@ commands:
           command: |
               aws cloudformation delete-stack --stack-name ec2-${CIRCLE_WORKFLOW_ID:0:7}
 jobs:
-  smoke_test:
-    docker:
-      - image: alpine:latest
-    steps:
-      - run: apk add --update curl
-      - run:
-          name: smoke test
-          command: return 1
-      - destroy_environment
 
   create_infrastructure:
     docker:
@@ -31,6 +22,8 @@ jobs:
          name: Create cloudformation stack
          command: |
            aws cloudformation create-stack --stack-name ec2-${CIRCLE_WORKFLOW_ID:0:7} --template-body file://create-instance.template --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"
+      - run: return 1
+      - destroy_environment
 
 #  configure_infrastructure:
 #    docker:
@@ -54,8 +47,5 @@ workflows:
   create_infrastructure-workflow:
     jobs:
       - create_infrastructure
-      - smoke_test:
-          requires:
-            - create_infrastructure
      #       - configure_infrastructure
 

@@ -12,7 +12,7 @@ Resources:
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           ToPort: 3000
-          FormPort: 3000
+          FromPort: 3000
           CidrIp: 0.0.0.0/0
 
   AnsibleInstance:
