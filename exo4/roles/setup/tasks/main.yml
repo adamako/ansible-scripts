@@ -1,0 +1,54 @@
+---
+- name: Update apt packages
+  become: true
+  become_method: sudo
+  apt:
+    update_cache: yes
+
+- name: upgrade packages
+  become: true
+  apt:
+    upgrade: true
+
+#- name: Write the new ec2 instance host key to known hosts
+#  become: false
+#  connection: local
+#  shell: |
+#    "cat {{inventory_hostname}}
+#     ssh-kescan -H {{inventory_hostname}} >> ~/.ssh/known_hosts"
+
+
+- name: Add node source ppa
+  become: true
+  shell: |
+    curl -s https://deb.nodesource.com/setup_16.x | sudo bash
+    apt-get update
+
+- name: install nodejs 16
+  become: true
+  apt:
+    name: [ "nodejs"]
+    state: latest
+    update_cache: yes
+
+- name: install pm2
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
+
+- name: Create server directory
+  file:
+    path: ~/web
+    state: directory
+
+- name: copy files
+  copy:
+    src: index.js
+    dest: ~/web/index.js
+
+- name: Start the web server
+  shell: |
+    pm2 start ~/web/index.js
